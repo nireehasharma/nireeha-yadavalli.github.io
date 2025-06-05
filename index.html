@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nireeha.yadavalli</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0a0a0a;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--dark-bg);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(247, 149, 51, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 70%, rgba(118, 75, 162, 0.2) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 15px 30px;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-content .subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-content .description {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.1;
+            animation: floatRandom 15s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 20%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 30%;
+            left: 5%;
+            animation-delay: 10s;
+        }
+
+        @keyframes floatRandom {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(-5deg); }
+            75% { transform: translateY(-30px) rotate(3deg); }
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 60px;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Skills grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .skill-card {
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .skill-card:hover::before {
+            left: 100%;
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Contact section */
+        .contact {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 30px;
+            padding: 80px 40px;
+            margin: 50px 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            background: var(--glass-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: var(--primary-gradient);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 20px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .social-links {
+                gap: 20px;
+            }
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <!-- Floating elements -->
+    <div class="floating-element">💻</div>
+    <div class="floating-element">🚀</div>
+    <div class="floating-element">⭐</div>
+
+    <!-- Navigation -->
+    <nav class="glass">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Nireeha Yadavalli</h1>
+            <div class="subtitle">Tech Innovator & Digital Architect</div>
+            <p class="description">
+                Crafting cutting-edge software with the coolest tech in the cosmos! 💻 
+                Passionate about turning bold ideas into brilliant applications.
+            </p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                <a href="#skills" class="btn btn-secondary">View My Work</a>
+                <a href="#" class="btn btn-secondary" style="background: var(--accent-gradient); border: none;">📄 Download Resume</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section animate-on-scroll">
+        <h2>About Me</h2>
+        <div class="glass" style="padding: 60px; text-align: center;">
+            <p style="font-size: 1.3rem; line-height: 1.8; opacity: 0.9;">
+                I'm a passionate developer who believes in the power of technology to transform ideas into reality. 
+                With a keen eye for innovation and a love for clean, efficient code, I specialize in creating 
+                digital experiences that not only look amazing but perform flawlessly. My journey in tech is 
+                driven by curiosity, creativity, and an unwavering commitment to excellence.
+            </p>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section animate-on-scroll">
+        <h2>Skills & Expertise</h2>
+        <div class="skills-grid">
+            <div class="skill-card glass">
+                <div class="skill-icon">🌐</div>
+                <h3>Web Development</h3>
+                <p>Creating responsive, modern web applications with cutting-edge technologies and frameworks.</p>
+            </div>
+            <div class="skill-card glass">
+                <div class="skill-icon">📱</div>
+                <h3>Mobile Apps</h3>
+                <p>Building cross-platform mobile experiences that engage users and drive results.</p>
+            </div>
+            <div class="skill-card glass">
+                <div class="skill-icon">🤖</div>
+                <h3>AI & Machine Learning</h3>
+                <p>Implementing intelligent solutions and automation to solve complex problems.</p>
+            </div>
+            <div class="skill-card glass">
+                <div class="skill-icon">☁️</div>
+                <h3>Cloud Architecture</h3>
+                <p>Designing scalable, secure cloud infrastructure for modern applications.</p>
+            </div>
+            <div class="skill-card glass">
+                <div class="skill-icon">🎨</div>
+                <h3>UI/UX Design</h3>
+                <p>Creating intuitive, beautiful interfaces that users love to interact with.</p>
+            </div>
+            <div class="skill-card glass">
+                <div class="skill-icon">⚡</div>
+                <h3>Performance Optimization</h3>
+                <p>Ensuring applications run smoothly and efficiently at any scale.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section animate-on-scroll">
+        <div class="contact glass">
+            <h2 style="margin-bottom: 30px;">Let's Build Something Amazing</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 40px;">
+                Ready to turn your vision into reality? Let's collaborate and create something extraordinary together.
+            </p>
+            
+            <!-- Contact Details -->
+            <div style="margin-bottom: 40px;">
+                <div style="display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; margin-bottom: 30px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">📧</div>
+                        <div style="font-weight: 600; margin-bottom: 5px;">Email</div>
+                        <a href="mailto:nireehasharma2912@gmail.com" style="color: #667eea; text-decoration: none; font-size: 1.1rem;">nireehasharma2912@gmail.com</a>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">📱</div>
+                        <div style="font-weight: 600; margin-bottom: 5px;">Phone</div>
+                        <a href="tel:647-685-5760" style="color: #667eea; text-decoration: none; font-size: 1.1rem;">647-685-5760</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <script>
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Dynamic background effect
+        document.addEventListener('mousemove', (e) => {
+            const bgAnimation = document.querySelector('.bg-animation');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            bgAnimation.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+        });
+
+        // Add some interactive particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                width: 4px;
+                height: 4px;
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: -1;
+                opacity: 0.7;
+                animation: particleFloat 4s linear forwards;
+            `;
+            
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 4000);
+        }
+
+        // Add particle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleFloat {
+                to {
+                    transform: translateY(-${window.innerHeight + 100}px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create particles periodically
+        setInterval(createParticle, 2000);
+    </script>
+</body>
+</html>
